@@ -1,4 +1,4 @@
-all: program
+all: StrList
 
 StrList.o: StrList.c StrList.h
 	gcc -c -Wall StrList.c
@@ -6,10 +6,10 @@ StrList.o: StrList.c StrList.h
 main.o: main.c StrList.h
 	gcc -c -Wall main.c
 
-program: main.o StrList.o
-	gcc -Wall main.o StrList.o -o program
+StrList: main.o StrList.o
+	gcc -Wall main.o StrList.o -o StrList
 
 clean:
-	rm -f main.o StrList.o program
+	rm -f main.o StrList.o StrList
 
 .PHONY: clean all
