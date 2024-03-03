@@ -1,9 +1,5 @@
 #include "StrList.h"
 
-void clearInputBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
 int main(){
     StrList* list=StrList_alloc();
     if(list==NULL)
