@@ -1,6 +1,9 @@
 #include "StrList.h"
 
-
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 int main(){
     StrList* list=StrList_alloc();
     if(list==NULL)
@@ -18,19 +21,15 @@ int main(){
             case 1:
             int numOfSTR;
             scanf("%d",&numOfSTR);
-            if(numOfSTR==0){
-                printf("No string to read");
-            }
-            else{
-                for(int i=0;i<numOfSTR;i++){
-                    char* str=(char*)malloc(sizeof(char)*STR_MAX_SIZE);
-                    if(str==NULL){
-                        printf("faild to allocate for string");
-                        return 1;
-                    }
-                    scanf("%s ",str);
-                    StrList_insertLast(list,str);
+            for(int i=0;i<numOfSTR;i++){
+                char* str=(char*)malloc(sizeof(char)*STR_MAX_SIZE);
+                if(str==NULL){
+                    printf("faild to allocate for string");
+                    StrList_free(list);
+                    return 1;
                 }
+                scanf(" %s", str);
+                StrList_insertLast(list,str);
             }
             break;
 
@@ -39,6 +38,7 @@ int main(){
             char* str= (char*)malloc(sizeof(char)*STR_MAX_SIZE);
             if(str==NULL){
                 printf("faild to allocate for string");
+                StrList_free(list);
                 return 1;
             }
             scanf("%d %s",&indexToAdd,str);
@@ -51,7 +51,7 @@ int main(){
 
             case 4:
             size_t size=StrList_size(list);
-            printf("%lu",size);
+            printf("\n%lu",size);
             break;
 
             case 5:
@@ -62,18 +62,19 @@ int main(){
 
             case 6:
             int count=StrList_printLen(list);
-            printf("%d",count);
+            printf("\n%d",count);
             break;
 
             case 7:
             char* strToCount=(char*)malloc(sizeof(char)*STR_MAX_SIZE);
             if(strToCount==NULL){
                 printf("failed to allocate for string");
+                StrList_free(list);
                 return 1;
             }
             scanf("%s",strToCount);
             int strCounter=StrList_count(list,strToCount);
-            printf("%d ",strCounter);
+            printf("\n%d",strCounter);
             free(strToCount);
             break;
 
@@ -81,6 +82,7 @@ int main(){
             char* strToRemove=(char*)malloc(sizeof(char)*STR_MAX_SIZE);
             if(strToRemove==NULL){
                 printf("failed to allocate for string");
+                StrList_free(list);
                 return 1;
             }
             scanf("%s",strToRemove);
@@ -93,7 +95,35 @@ int main(){
             scanf("%d",&indexToRemove);
             StrList_removeAt(list,indexToRemove);
             break;
-        }
+
+            case 10:
+            StrList_reverse(list);
+            break;
+
+            case 11:
+            while(list->head!=NULL){
+                Node* temp=list->head;
+                list->head=list->head->next;
+                free(temp->str);
+                free(temp);
+            }
+            list->size=0;
+            break;
+
+            case 12:
+            StrList_sort(list);
+            break;
+
+            case 13:
+            int ans=StrList_isSorted(list);
+            if(ans==1){
+                printf("\ntrue");
+            }
+            else{
+                printf("\nfalse");
+            }
+            break;
+        }   
         if (choice == 0) {
             break;
         }

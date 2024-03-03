@@ -2,7 +2,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
+#define STR_MAX_SIZE 100
 /********************************************************************************
  *
  * A StrList library.
@@ -13,15 +15,23 @@
  * out.
  *
  ********************************************************************************/
-#define STR_MAX_SIZE 100
-struct _Node;
+
+struct _Node
+{
+    char* str;
+    struct _Node* next;
+};
 typedef struct _Node Node;
 
 /*
  * StrList represents a StrList data structure.
  */
 
-struct _StrList;
+struct _StrList
+{
+    size_t size;
+    Node* head;
+};
 typedef struct _StrList StrList;
 
 /*
@@ -104,6 +114,8 @@ StrList* StrList_clone(const StrList* StrList);
  * Reverces the given StrList. 
  */
 void StrList_reverse( StrList* StrList);
+
+int compareStrings(const void* a, const void* b);
 
 /*
  * Sort the given list in lexicographical order 

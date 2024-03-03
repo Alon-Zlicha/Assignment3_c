@@ -1,22 +1,9 @@
 #include "StrList.h"
-#include <string.h>
 
-struct _Node
-{
-    char* str;
-    struct _Node* next;
-};
- 
-struct _StrList
-{
-    size_t size;
-    Node* head;
-};
-
-Node* Node_alloc(char* _str,Node* _next){
+Node* Node_alloc(const char* _str,Node* _next){
     Node* newNode=(Node*)malloc(sizeof(Node));
     if(newNode!=NULL){
-        newNode->str=_str;
+        newNode->str=(char*)_str;
         newNode->next=_next;
     }
     return newNode;
@@ -92,21 +79,20 @@ char* StrList_firstData(const StrList* StrList){
     if(StrList==NULL){
         return NULL;
     }
-    char* data=(char*)malloc(sizeof(char)*STR_MAX_SIZE);
-    if(data!=NULL){
-        data=StrList->head->str;
-    }
-    return data;
+    return StrList->head->str;
 }
 void StrList_print(const StrList* StrList){
+    printf("\n");
     if((StrList==NULL) || (StrList->head==NULL )){
-        printf("Empty list");
         return;
     }
     Node* current=StrList->head;
     while(current!=NULL){
-        printf("%s ",current->str);
+        printf("%s",current->str);
         current=current->next;
+        if (current != NULL) {
+            printf(" ");
+        }
     }
 }
 void StrList_printAt(const StrList* Strlist,int index){
@@ -115,14 +101,14 @@ void StrList_printAt(const StrList* Strlist,int index){
         return;
     }
     if(index==0){
-        printf("%s ",Strlist->head->str);
+        printf("\n%s",Strlist->head->str);
         return;
     }
     Node* current=Strlist->head;
     for(int i=0;i<index;i++){
         current=current->next;
     }
-    printf("%s ",current->str);
+    printf("\n%s",current->str);
 }
 int StrList_printLen(const StrList* Strlist){
     if((Strlist==NULL) || (Strlist->head==NULL )){
@@ -159,7 +145,6 @@ void StrList_remove(StrList* StrList, const char* data){
         free(temp);
         count++;
     }
-    StrList->size-=count;
     if((StrList==NULL) || (StrList->head==NULL)){
         return;
     }
@@ -216,6 +201,103 @@ int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
         }
         current1=current1->next;
         current2=current2->next;
+    }
+    return 1;
+}
+StrList* StrList_clone(const StrList* StrList){
+    if(StrList==NULL){
+        return NULL;
+    }
+    struct _StrList* clonedList=StrList_alloc();
+    if(clonedList==NULL){
+        printf("failed to allocate");
+        return NULL;
+    }
+    Node* originalCurrent=StrList->head;
+    Node* clonePrev=NULL;
+    while(originalCurrent!=NULL){
+        char* clonedStr=(char*)malloc(strlen(originalCurrent->str)+1);
+        if(clonedStr==NULL){
+            printf("failed to allocate");
+            StrList_free(clonedList);
+            return NULL;
+        }
+        strcpy(clonedStr,originalCurrent->str);
+        Node* clonedNode=Node_alloc(clonedStr,NULL);
+        if(clonedNode==NULL){
+            printf("failed to alllocate");
+            StrList_free(clonedList);
+            return NULL;
+        }
+        if(clonePrev==NULL){
+            clonedList->head=clonedNode;
+        }
+        else{
+            clonePrev->next=clonedNode;
+        }
+        clonePrev=clonedNode;
+        originalCurrent=originalCurrent->next;
+    }
+    clonedList->size=StrList->size;
+    return clonedList;
+}
+void StrList_reverse( StrList* StrList){
+    if(StrList->size<=1){
+        return;
+    }
+    Node* prev=NULL;
+    Node* current=StrList->head;
+    while(current!=NULL){
+        Node* next=current->next;
+        current->next=prev;
+        prev=current;
+        current=next;
+    }
+    StrList->head=prev;
+}
+int compareStrings(const void* a, const void* b) {
+    const char** str1 = (const char**)a;
+    const char** str2 = (const char**)b;
+    return strcmp(*str1, *str2);
+}
+void StrList_sort( StrList* StrList){
+    size_t size=StrList->size;
+    if(size<=1){
+        return;
+    }
+    Node* current=StrList->head;
+    char** arr=(char**)malloc(sizeof(char*)*size);
+    if(arr==NULL){
+        printf("failed to allocate");
+        return;
+    }
+    current=StrList->head;
+    int i=0;
+    while(current!=NULL){
+        arr[i]=current->str;
+        current=current->next;
+        i++;
+    }
+    qsort(arr,size,sizeof(char*),compareStrings);
+    current=StrList->head;
+    int j=0;
+    while(current!=NULL){
+        current->str=arr[j];
+        current=current->next;
+        j++;
+    }
+    free(arr);;
+}
+int StrList_isSorted(StrList* StrList){
+    if(StrList->size<=1){
+        return 1;
+    }
+    Node* current=StrList->head;
+    while(current->next!=NULL){
+        if(strcmp(current->str,current->next->str)>0){
+            return 0;
+        }
+        current=current->next;
     }
     return 1;
 }
