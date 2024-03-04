@@ -140,6 +140,7 @@ int main(){
             int ans=StrList_isSorted(list);
             if(ans==1){
                 printf("true\n");
+                printf("\n");
             }
             else{
                 printf("false\n");
