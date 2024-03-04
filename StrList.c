@@ -83,6 +83,7 @@ char* StrList_firstData(const StrList* StrList){
 }
 void StrList_print(const StrList* StrList){
     if((StrList==NULL) || (StrList->head==NULL )){
+        printf("\n");
         return;
     }
     Node* current=StrList->head;
@@ -97,7 +98,7 @@ void StrList_print(const StrList* StrList){
 }
 void StrList_printAt(const StrList* Strlist,int index){
     if(index>StrList_size(Strlist)-1){
-        printf("index to big");
+        printf("\n");
         return;
     }
     if(index==0){
