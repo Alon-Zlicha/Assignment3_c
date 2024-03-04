@@ -19,7 +19,7 @@ int main(){
             case 1:
             int numOfSTR;
             scanf("%d",&numOfSTR);
-            getchar();
+            
             char buffer[BUFFER_SIZE];
             if (fgets(buffer, sizeof(buffer), stdin)==NULL){
                 printf("failed to read input\n");
