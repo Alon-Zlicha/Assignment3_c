@@ -1,6 +1,7 @@
 #include "StrList.h"
 
 #define BUFFER_SIZE 1024
+
 int main(){
     StrList* list=StrList_alloc();
     if(list==NULL)
@@ -20,27 +21,27 @@ int main(){
             scanf("%d",&numOfSTR);
             getchar();
             char buffer[BUFFER_SIZE];
-            if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+            if (fgets(buffer, sizeof(buffer), stdin)==NULL){
                 printf("failed to read input\n");
                     return 1;
             }
-            char *newLine = strchr(buffer, '\n');
-            if (newLine != NULL) {
-                *newLine = '\0';
+            char *newLine=strchr(buffer,'\n');
+            if (newLine!=NULL) {
+                *newLine='\0';
             }
-            char *word = strtok(buffer, " ");
-            int i = 0;
-            while (word != NULL && i < numOfSTR) {
-            char *str = (char *)malloc(strlen(word) + 1);
-            if(str==NULL) {
+            char*word=strtok(buffer, " ");
+            int i=0;
+            while ((word!=NULL) && (i<numOfSTR)){
+            char* str=(char*)malloc(strlen(word)+1);
+            if(str==NULL){
                 printf("failed to allocate");
                 StrList_free(list);
                 return 1;
             }
-            strcpy(str, word);
-            StrList_insertLast(list, str);
+            strcpy(str,word);
+            StrList_insertLast(list,str);
             i++;
-            word = strtok(NULL, " "); 
+            word=strtok(NULL, " "); 
         }
             /*for(int i=0;i<numOfSTR;i++){
                 char* str=(char*)malloc(sizeof(char)*STR_MAX_SIZE);
