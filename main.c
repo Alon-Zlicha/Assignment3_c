@@ -153,5 +153,6 @@ int main(){
     if(list!=NULL){
          StrList_free(list);
     }
+    printf("\n");
     return 0;
 }
