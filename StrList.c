@@ -82,7 +82,6 @@ char* StrList_firstData(const StrList* StrList){
     return StrList->head->str;
 }
 void StrList_print(const StrList* StrList){
-    printf("\n");
     if((StrList==NULL) || (StrList->head==NULL )){
         return;
     }
@@ -94,6 +93,7 @@ void StrList_print(const StrList* StrList){
             printf(" ");
         }
     }
+    printf("\n");
 }
 void StrList_printAt(const StrList* Strlist,int index){
     if(index>StrList_size(Strlist)-1){
@@ -101,14 +101,14 @@ void StrList_printAt(const StrList* Strlist,int index){
         return;
     }
     if(index==0){
-        printf("\n%s",Strlist->head->str);
+        printf("%s\n",Strlist->head->str);
         return;
     }
     Node* current=Strlist->head;
     for(int i=0;i<index;i++){
         current=current->next;
     }
-    printf("\n%s",current->str);
+    printf("%s\n",current->str);
 }
 int StrList_printLen(const StrList* Strlist){
     if((Strlist==NULL) || (Strlist->head==NULL )){

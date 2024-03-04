@@ -73,7 +73,7 @@ int main(){
 
             case 4:
             size_t size=StrList_size(list);
-            printf("\n%lu",size);
+            printf("%lu\n",size);
             break;
 
             case 5:
@@ -84,7 +84,7 @@ int main(){
 
             case 6:
             int count=StrList_printLen(list);
-            printf("\n%d",count);
+            printf("%d\n",count);
             break;
 
             case 7:
@@ -96,7 +96,7 @@ int main(){
             }
             scanf("%s",strToCount);
             int strCounter=StrList_count(list,strToCount);
-            printf("\n%d",strCounter);
+            printf("%d\n",strCounter);
             free(strToCount);
             break;
 
@@ -139,20 +139,19 @@ int main(){
             case 13:
             int ans=StrList_isSorted(list);
             if(ans==1){
-                printf("\ntrue");
+                printf("true\n");
             }
             else{
-                printf("\nfalse");
+                printf("false\n");
             }
             break;
         }   
-        if (choice == 0) {
+        if (choice==0) {
             break;
         }
     }
     if(list!=NULL){
          StrList_free(list);
     }
-    printf("\n");
     return 0;
 }
